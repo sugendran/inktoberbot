@@ -10,6 +10,13 @@ var conf = {
     terms: ['inktober']
 };
 
+var lastRetweets = [];
+
+require('http').createServer(function (req, res) {
+  res.writeHead(200, {'Content-Type': 'text/json'});
+  res.end(JSON.stringify({ 'recent retweets': lastRetweets }));
+}).listen(5000);
+
 // going to use the tuiter node module to get access to twitter
 var tu = require('tuiter')(conf.keys);
 
@@ -35,6 +42,10 @@ function onTweet(tweet) {
     }
     if (tweet.text.indexOf("RT") !== -1) {
         return;
+    }
+    lastRetweets.push(tweet.text);
+    if(lastRetweets.length === 20) {
+        lastRetweets.shift();
     }
     // console.log("Retweeting: " + tweet.text);
     // note we're using the id_str property since
