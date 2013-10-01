@@ -15,7 +15,8 @@ var lastRetweets = [];
 require('http').createServer(function (req, res) {
   res.writeHead(200, {'Content-Type': 'text/json'});
   res.end(JSON.stringify({ 'recent retweets': lastRetweets }));
-}).listen(5000);
+}).listen(process.env.PORT || 5000);
+console.log('starting server on port: ' + process.env.PORT || 5000);
 
 // going to use the tuiter node module to get access to twitter
 var tu = require('tuiter')(conf.keys);
