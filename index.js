@@ -44,6 +44,12 @@ function onTweet(tweet) {
     if (tweet.text.indexOf("RT") !== -1) {
         return;
     }
+    var txt = tweet.text.toLowerCase();
+    for(var i=0, ii=conf.terms.length; i<ii; i++) {
+        if(txt == conf.terms[i]) {
+            return;
+        }
+    }
     lastRetweets.push(tweet.text);
     if(lastRetweets.length === 20) {
         lastRetweets.shift();
